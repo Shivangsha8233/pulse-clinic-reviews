@@ -133,7 +133,6 @@ const stars = document.querySelectorAll(".star-btn");
 const ratingStatusText = document.getElementById("ratingStatusText");
 const starRatingBox = document.getElementById("starRatingBox");
 const positiveWizard = document.getElementById("positiveWizard");
-const privateFeedbackBox = document.getElementById("privateFeedbackBox");
 const doctorCards = document.querySelectorAll(".doctor-card");
 const treatmentsCloud = document.getElementById("treatmentsCloud");
 const reviewOptionsContainer = document.getElementById("reviewOptionsContainer");
@@ -187,13 +186,8 @@ function setupStarRating() {
     starRatingBox.classList.add("active");
 
     // ALWAYS show the review builder for EVERY star (1, 2, 3, 4, 5)
-    positiveWizard.classList.add("active");
-
-    // For 1 to 3 stars, also show the private management card below as a direct option
-    if (val <= 3) {
-      privateFeedbackBox.classList.add("active");
-    } else {
-      privateFeedbackBox.classList.remove("active");
+    if (positiveWizard) {
+      positiveWizard.classList.add("active");
     }
 
     // Refresh highlights and generate tailored AI reviews for this exact star rating!

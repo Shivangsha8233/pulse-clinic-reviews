@@ -289,14 +289,10 @@ body {
   min-height: 22px;
 }
 
-/* Step Wizard Form (Shown after rating) */
+/* Step Wizard Form (Always visible for all 1 to 5 stars) */
 .wizard-section {
-  display: none;
-  animation: fadeIn 0.4s ease forwards;
-}
-
-.wizard-section.active {
   display: block;
+  animation: fadeIn 0.4s ease forwards;
 }
 
 .step-block {
