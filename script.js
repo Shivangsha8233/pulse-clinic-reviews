@@ -1,10 +1,10 @@
 /**
  * PULSE HEALTH CLINIC — AI REVIEW & GOOGLE RATING SYSTEM
- * Verified Google Place ID: ChIJrc0BE6ORyzsRNSWqRuAR6Ok
- * Direct Google Review URL: https://search.google.com/local/writereview?placeid=ChIJrc0BE6ORyzsRNSWqRuAR6Ok
+ * Verified Google Place ID: ChIJrcsBE6ORyzsRNNWqRuAR6Ok
+ * Direct Google Review URL: https://search.google.com/local/writereview?placeid=ChIJrcsBE6ORyzsRNNWqRuAR6Ok
  */
 
-const GOOGLE_REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJrc0BE6ORyzsRNSWqRuAR6Ok";
+const GOOGLE_REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJrcsBE6ORyzsRNNWqRuAR6Ok";
 const CLINIC_WHATSAPP_NUMBER = "917396639211";
 
 // State

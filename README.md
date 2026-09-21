@@ -11,9 +11,9 @@ A dedicated, mobile-first patient review experience for **Pulse Health Clinic** 
 ---
 
 ## 📍 Google Maps Place Integration
-- **Place ID**: `ChIJrc0BE6ORyzsRNSWqRuAR6Ok`
+- **Place ID**: `ChIJrcsBE6ORyzsRNNWqRuAR6Ok`
 - **Direct 1-Click Review URL**:
-  `https://search.google.com/local/writereview?placeid=ChIJrc0BE6ORyzsRNSWqRuAR6Ok`
+  `https://search.google.com/local/writereview?placeid=ChIJrcsBE6ORyzsRNNWqRuAR6Ok`
 
 ---
 
