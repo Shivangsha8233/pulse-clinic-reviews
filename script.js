@@ -11,7 +11,7 @@ const CLINIC_WHATSAPP_NUMBER = "917396639211";
 let currentRating = 5;
 let selectedDoctor = "both";
 let selectedTreatments = ["General Health"];
-let selectedHighlights = ["Very patient & gentle", "Painless experience"];
+let selectedHighlights = ["Very patient & gentle", "Painless procedure"];
 let generatedOptions = [];
 let selectedReviewText = "";
 
@@ -31,23 +31,101 @@ const TREATMENTS_BY_DOCTOR = {
   ]
 };
 
-// Rich Local AI Templates with Natural Human Tones
-const HUMAN_REVIEW_TEMPLATES = {
-  detailed: [
-    (doc, treat, high) => `Visited Pulse Health Clinic in Madhapur for ${treat}. ${doc === 'Dr. G. Vijay Kumar' ? 'Dr. Vijay Kumar' : doc === 'Dr. Y. Devi Priya' ? 'Dr. Devi Priya' : 'The doctors'} took the time to explain everything thoroughly before starting. The procedure was ${high.toLowerCase().includes('painless') ? 'virtually painless' : 'done with utmost care'} and the clinic hygiene standards are exceptional. Very satisfied with the treatment results and clear post-care advice!`,
-    (doc, treat, high) => `Had an appointment at Pulse Health Clinic near Ayyappa Society, Madhapur for ${treat}. ${doc} is exceptionally skilled and made me feel completely comfortable. What stood out most was how ${high.toLowerCase()} they were throughout. The staff is polite, and the consultation was completely transparent with no unnecessary tests. Highly recommend!`,
-    (doc, treat, high) => `I had been looking for a dependable clinic in Madhapur for ${treat} and found Pulse Health Clinic. ${doc} was wonderful—very professional, calm, and addressed every trivial question I had. The procedure went smoothly and recovery was rapid. Truly one of the best clinics in the Hitec City area.`
+// Dynamic Highlight Tags based on Star Rating
+const HIGHLIGHTS_CONFIG = {
+  positive: [
+    { tag: "Very patient & gentle", label: "Gentle & Patient" },
+    { tag: "Painless procedure", label: "Painless procedure" },
+    { tag: "Clean & hygienic clinic", label: "Clean & hygienic clinic" },
+    { tag: "Great visible results", label: "Great visible results" },
+    { tag: "Transparent pricing", label: "Affordable & transparent" },
+    { tag: "Zero waiting time", label: "Zero waiting time" }
   ],
-  warm: [
-    (doc, treat, high) => `Really pleased with my visit to Pulse Clinic! Consulted ${doc} for ${treat}. Doctor is so gentle and patient, and the treatment was ${high.toLowerCase()}. The clinic is sparkling clean and very well organized. Thank you doctor and staff for the wonderful care! 😊`,
-    (doc, treat, high) => `Super happy with the results of my ${treat} at Pulse Health Clinic! ${doc} is one of the most polite and caring doctors I've met in Hyderabad. The treatment was ${high.toLowerCase()} and the results speak for themselves. 5 stars all the way!`,
-    (doc, treat, high) => `Great experience at Pulse Clinic Madhapur! Consulted ${doc} for ${treat}. Right from reception to doctor consultation, everything was seamless. Doctor explained the cause and solution very calmly without rushing. Truly appreciate the genuine care.`
-  ],
-  short: [
-    (doc, treat, high) => `Best clinic in Madhapur! Consulted ${doc} for ${treat}—very smooth and ${high.toLowerCase()}. Highly recommended.`,
-    (doc, treat, high) => `Excellent care by ${doc} for ${treat} at Pulse Health Clinic. Clean premises, friendly staff, and great results!`,
-    (doc, treat, high) => `5/5 stars for ${doc}! Got ${treat} done here. Professional, transparent, and completely ${high.toLowerCase()}.`
+  critical: [
+    { tag: "Long waiting time", label: "Long waiting time" },
+    { tag: "Rushed consultation", label: "Rushed consultation" },
+    { tag: "Reception delay", label: "Reception delay" },
+    { tag: "Scheduling confusion", label: "Scheduling confusion" },
+    { tag: "Average results", label: "Average results" },
+    { tag: "Could explain better", label: "Could explain better" }
   ]
+};
+
+// Comprehensive Local Human Templates for ALL Ratings (1 to 5 Stars)
+const HUMAN_REVIEW_TEMPLATES = {
+  5: {
+    detailed: [
+      (doc, treat, high) => `Visited Pulse Health Clinic in Madhapur for ${treat}. ${doc === 'Dr. G. Vijay Kumar' ? 'Dr. Vijay Kumar' : doc === 'Dr. Y. Devi Priya' ? 'Dr. Devi Priya' : 'The doctors'} took the time to explain everything thoroughly before starting. The procedure was done with utmost care and the clinic hygiene standards are exceptional. Very satisfied with the treatment results and clear post-care advice!`,
+      (doc, treat, high) => `Had an appointment at Pulse Health Clinic near Ayyappa Society, Madhapur for ${treat}. ${doc} is exceptionally skilled and made me feel completely comfortable. What stood out most was how ${high.toLowerCase()} they were throughout. The staff is polite, and the consultation was completely transparent with no unnecessary tests. Highly recommend!`,
+      (doc, treat, high) => `I had been looking for a dependable clinic in Madhapur for ${treat} and found Pulse Health Clinic. ${doc} was wonderful—very professional, calm, and addressed every trivial question I had. The procedure went smoothly and recovery was rapid. Truly one of the best clinics in the Hitec City area.`
+    ],
+    warm: [
+      (doc, treat, high) => `Really pleased with my visit to Pulse Clinic! Consulted ${doc} for ${treat}. Doctor is so gentle and patient, and the treatment was virtually painless. The clinic is sparkling clean and very well organized. Thank you doctor and staff for the wonderful care! 😊`,
+      (doc, treat, high) => `Super happy with the results of my ${treat} at Pulse Health Clinic! ${doc} is one of the most polite and caring doctors I've met in Hyderabad. The treatment was seamless and the results speak for themselves. 5 stars all the way!`,
+      (doc, treat, high) => `Great experience at Pulse Clinic Madhapur! Consulted ${doc} for ${treat}. Right from reception to doctor consultation, everything was smooth. Doctor explained the cause and solution very calmly without rushing. Truly appreciate the genuine care.`
+    ],
+    short: [
+      (doc, treat, high) => `Best clinic in Madhapur! Consulted ${doc} for ${treat}—very smooth and professional. Highly recommended.`,
+      (doc, treat, high) => `Excellent care by ${doc} for ${treat} at Pulse Health Clinic. Clean premises, friendly staff, and great results!`,
+      (doc, treat, high) => `5/5 stars for ${doc}! Got ${treat} done here. Professional, transparent, and completely comfortable.`
+    ]
+  },
+  4: {
+    detailed: [
+      (doc, treat, high) => `Consulted ${doc} at Pulse Health Clinic for ${treat}. The doctor is very experienced, answered all my questions calmly, and the treatment was handled well. There was a slight wait past my appointment time, but overall very happy with the clinical care and guidance.`,
+      (doc, treat, high) => `Visited Pulse Clinic in Madhapur for ${treat}. ${doc} provided very clear diagnosis and treatment options without pushing unnecessary procedures. The clinic is clean and well-kept. Giving 4 stars only due to a minor delay at reception.`
+    ],
+    warm: [
+      (doc, treat, high) => `Good experience at Pulse Health Clinic with ${doc} for ${treat}. The doctor is polite and reassuring. Treatment went smoothly and post-care was clearly explained. Definitely recommend visiting!`,
+      (doc, treat, high) => `Had a pleasant consultation with ${doc} regarding ${treat}. Staff was courteous and the facility is modern. Just wish the waiting time was a bit shorter, but the medical treatment itself was 5-star quality.`
+    ],
+    short: [
+      (doc, treat, high) => `4/5 stars. Good diagnosis and treatment by ${doc} at Pulse Health Clinic. Clean setup and quality care.`,
+      (doc, treat, high) => `Solid experience with ${doc} for ${treat}. Professional doctors and good hygiene.`
+    ]
+  },
+  3: {
+    detailed: [
+      (doc, treat, high) => `Visited Pulse Health Clinic for ${treat}. Consulted ${doc}, who gave sound medical advice and knows their field. However, had to wait nearly 40 minutes past my appointment time. An average overall experience, though the doctor is qualified.`,
+      (doc, treat, high) => `The consultation with ${doc} for ${treat} was okay. While the doctor answered basic questions, the visit felt somewhat rushed due to the rush of patients. Average experience overall, clinic needs better scheduling.`
+    ],
+    warm: [
+      (doc, treat, high) => `Decent experience consulting ${doc} for ${treat}. The clinic was clean and the doctor was courteous, but reception coordination and waiting time management could definitely be improved. 3 stars.`,
+      (doc, treat, high) => `Treatment for ${treat} was fine, but expected a bit more detailed explanation from ${doc}. It was an okay visit, neither bad nor exceptional.`
+    ],
+    short: [
+      (doc, treat, high) => `Fair experience for ${treat}. Doctor consultation was okay, but wait time was longer than expected. 3 stars.`,
+      (doc, treat, high) => `Average visit at Pulse Clinic. Qualified doctors but front desk and time management need work.`
+    ]
+  },
+  2: {
+    detailed: [
+      (doc, treat, high) => `Booked an appointment with ${doc} at Pulse Clinic for ${treat}. Unfortunately, had to wait over 45 minutes and the consultation felt hurried once inside. Felt like my concerns about ${high.toLowerCase()} weren't fully addressed for the fee charged.`,
+      (doc, treat, high) => `Disappointed with the visit to Pulse Clinic Madhapur. Consulted ${doc} for ${treat}, but there was lack of proper coordination and the doctor spent barely a few minutes before moving to the next patient.`
+    ],
+    warm: [
+      (doc, treat, high) => `Not very satisfied with my visit for ${treat}. Despite booking in advance, there was significant delay and the staff was unhelpful. ${doc} seemed preoccupied and didn't explain the procedure clearly.`,
+      (doc, treat, high) => `Expected a much better experience at Pulse Health Clinic. The consultation for ${treat} was rushed and post-treatment guidance was minimal. 2 stars.`
+    ],
+    short: [
+      (doc, treat, high) => `2 stars. Long waiting time and hurried consultation with ${doc} for ${treat}. Needs better patient management.`,
+      (doc, treat, high) => `Disappointing visit. Poor scheduling and rushed consultation for ${treat} at Pulse Clinic.`
+    ]
+  },
+  1: {
+    detailed: [
+      (doc, treat, high) => `Very frustrating experience at Pulse Health Clinic for ${treat}. Waited for over an hour despite a confirmed appointment slot. When finally seen by ${doc}, the consultation was completed in under three minutes with no proper examination. Would not recommend.`,
+      (doc, treat, high) => `Terrible experience at Pulse Clinic Madhapur. Came for ${treat} with ${doc}. Staff was completely indifferent to delays and the doctor was dismissive of questions. Needs serious overhaul in patient service.`
+    ],
+    warm: [
+      (doc, treat, high) => `Extremely disappointed with my visit to Pulse Clinic for ${treat}. The reception was unprofessional, scheduling was completely chaotic, and the consultation with ${doc} lacked empathy or care. Very bad experience.`,
+      (doc, treat, high) => `Had a very bad visit for ${treat}. Zero respect for patients' time and doctor was dismissive. Will not be returning to Pulse Health Clinic.`
+    ],
+    short: [
+      (doc, treat, high) => `1 star. Very poor experience with appointment delays and uncoordinated staff for ${treat}.`,
+      (doc, treat, high) => `Extremely disappointed. Waited over an hour and received a rushed consultation with ${doc}.`
+    ]
+  }
 };
 
 // DOM Elements
@@ -58,7 +136,6 @@ const positiveWizard = document.getElementById("positiveWizard");
 const privateFeedbackBox = document.getElementById("privateFeedbackBox");
 const doctorCards = document.querySelectorAll(".doctor-card");
 const treatmentsCloud = document.getElementById("treatmentsCloud");
-const highlightBtns = document.querySelectorAll(".highlight-btn");
 const reviewOptionsContainer = document.getElementById("reviewOptionsContainer");
 const customReviewText = document.getElementById("customReviewText");
 const copyGoogleBtn = document.getElementById("copyGoogleBtn");
@@ -71,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupStarRating();
   setupDoctorSelector();
   renderTreatmentChips();
-  setupHighlightTags();
+  renderHighlightTags();
   setupCopyAndRedirect();
   setupStandeeModal();
   triggerAiReviewGeneration();
@@ -82,9 +159,9 @@ function setupStarRating() {
   const ratingLabels = {
     5: "🌟 5 Stars — Outstanding Experience!",
     4: "✨ 4 Stars — Very Good Experience!",
-    3: "3 Stars — Fair / Average Experience",
-    2: "2 Stars — Needs Improvement",
-    1: "1 Star — Disappointing Experience"
+    3: "😐 3 Stars — Fair / Average Experience",
+    2: "⚠️ 2 Stars — Needs Improvement",
+    1: "❌ 1 Star — Disappointing Experience"
   };
 
   stars.forEach(btn => {
@@ -109,14 +186,19 @@ function setupStarRating() {
     ratingStatusText.textContent = ratingLabels[val] || "";
     starRatingBox.classList.add("active");
 
-    if (val >= 4) {
-      positiveWizard.classList.add("active");
-      privateFeedbackBox.classList.remove("active");
-      triggerAiReviewGeneration();
-    } else {
-      positiveWizard.classList.remove("active");
+    // ALWAYS show the review builder for EVERY star (1, 2, 3, 4, 5)
+    positiveWizard.classList.add("active");
+
+    // For 1 to 3 stars, also show the private management card below as a direct option
+    if (val <= 3) {
       privateFeedbackBox.classList.add("active");
+    } else {
+      privateFeedbackBox.classList.remove("active");
     }
+
+    // Refresh highlights and generate tailored AI reviews for this exact star rating!
+    renderHighlightTags();
+    triggerAiReviewGeneration();
   }
 
   function highlightStars(val) {
@@ -161,7 +243,6 @@ function renderTreatmentChips() {
     if (idx === 0) selectedTreatments = [treatment];
 
     btn.addEventListener("click", () => {
-      // Toggle selection or single select
       treatmentsCloud.querySelectorAll(".chip-btn").forEach(b => {
         b.classList.remove("selected");
         const icon = b.querySelector("i");
@@ -181,12 +262,25 @@ function renderTreatmentChips() {
   if (window.lucide) lucide.createIcons();
 }
 
-// 4. Highlight Tags
-function setupHighlightTags() {
-  highlightBtns.forEach(btn => {
+// 4. Dynamic Highlight Tags (Adapts to Star Rating)
+function renderHighlightTags() {
+  const container = document.querySelector(".chips-cloud");
+  if (!container) return;
+
+  container.innerHTML = "";
+  const config = currentRating >= 4 ? HIGHLIGHTS_CONFIG.positive : HIGHLIGHTS_CONFIG.critical;
+  selectedHighlights = [config[0].tag];
+
+  config.forEach((item, idx) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "highlight-btn" + (idx === 0 ? " selected" : "");
+    btn.dataset.tag = item.tag;
+    btn.textContent = item.label;
+
     btn.addEventListener("click", () => {
       btn.classList.toggle("selected");
-      const tag = btn.dataset.tag;
+      const tag = item.tag;
       if (btn.classList.contains("selected")) {
         if (!selectedHighlights.includes(tag)) selectedHighlights.push(tag);
       } else {
@@ -194,10 +288,12 @@ function setupHighlightTags() {
       }
       triggerAiReviewGeneration();
     });
+
+    container.appendChild(btn);
   });
 }
 
-// 5. Smart AI Generator (Free Online API + Robust Local Human Engine)
+// 5. Smart AI Generator (Free Online API + Robust Local Human Engine for ALL Stars)
 async function triggerAiReviewGeneration() {
   aiShimmer.classList.add("loading");
   reviewOptionsContainer.innerHTML = "";
@@ -209,22 +305,24 @@ async function triggerAiReviewGeneration() {
     : "Dr. Vijay Kumar & Dr. Devi Priya";
 
   const treatName = selectedTreatments[0] || "treatment";
-  const highText = selectedHighlights.join(", ") || "patient and caring";
+  const highText = selectedHighlights.join(", ") || (currentRating >= 4 ? "patient and caring" : "waiting time");
 
-  // Generate 3 Local Options Instantly
-  const randDetailed = HUMAN_REVIEW_TEMPLATES.detailed[Math.floor(Math.random() * HUMAN_REVIEW_TEMPLATES.detailed.length)](docName, treatName, highText);
-  const randWarm = HUMAN_REVIEW_TEMPLATES.warm[Math.floor(Math.random() * HUMAN_REVIEW_TEMPLATES.warm.length)](docName, treatName, highText);
-  const randShort = HUMAN_REVIEW_TEMPLATES.short[Math.floor(Math.random() * HUMAN_REVIEW_TEMPLATES.short.length)](docName, treatName, highText);
+  // Get templates for the current star rating (1 to 5)
+  const templates = HUMAN_REVIEW_TEMPLATES[currentRating] || HUMAN_REVIEW_TEMPLATES[5];
+
+  const randDetailed = templates.detailed[Math.floor(Math.random() * templates.detailed.length)](docName, treatName, highText);
+  const randWarm = templates.warm[Math.floor(Math.random() * templates.warm.length)](docName, treatName, highText);
+  const randShort = templates.short[Math.floor(Math.random() * templates.short.length)](docName, treatName, highText);
 
   generatedOptions = [
-    { title: "Detailed & Professional", text: randDetailed, type: "detailed" },
-    { title: "Warm & Conversational", text: randWarm, type: "warm" },
-    { title: "Short & Punchy", text: randShort, type: "short" }
+    { title: `${currentRating}★ Detailed Review`, text: randDetailed, type: "detailed" },
+    { title: `${currentRating}★ Conversational`, text: randWarm, type: "warm" },
+    { title: `${currentRating}★ Short & Direct`, text: randShort, type: "short" }
   ];
 
-  // Optional: Background query to Pollinations free AI API for a fresh creative sentence
+  // Optional Live API: Query Pollinations free AI API for a fresh creative sentence matching THIS exact star rating
   try {
-    const prompt = `Write a short 2-sentence natural 5-star patient review for Pulse Health Clinic in Madhapur Hyderabad consulting ${docName} for ${treatName}. Sound like a real person.`;
+    const prompt = `Write a realistic, human-written ${currentRating}-star review (2-3 sentences) from a patient who visited Pulse Health Clinic in Madhapur Hyderabad consulting ${docName} for ${treatName}. The rating is ${currentRating} out of 5 stars. Keep tone natural, authentic, and reflect a genuine ${currentRating}-star experience without sounding robotic or fake.`;
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2500); // 2.5s max
 
@@ -236,8 +334,9 @@ async function triggerAiReviewGeneration() {
     if (res.ok) {
       const aiText = await res.text();
       if (aiText && aiText.trim().length > 25 && !aiText.includes("I cannot")) {
-        // Replace Option 2 with the fresh AI variation!
-        generatedOptions[1] = { title: "AI Generated • Natural", text: aiText.trim(), type: "ai-live" };
+        // Clean any surrounding quotes
+        let cleanText = aiText.trim().replace(/^["']|["']$/g, '');
+        generatedOptions[1] = { title: `AI Generated • ${currentRating}★ Review`, text: cleanText, type: "ai-live" };
       }
     }
   } catch (err) {
@@ -287,7 +386,7 @@ customReviewText.addEventListener("input", (e) => {
   selectedReviewText = e.target.value;
 });
 
-// 6. Copy and Open Google Reviews (The Core Conversion Action)
+// 6. Copy and Open Google Reviews
 function setupCopyAndRedirect() {
   copyGoogleBtn.addEventListener("click", async () => {
     const textToCopy = customReviewText.value.trim() || selectedReviewText;
@@ -310,19 +409,24 @@ function setupCopyAndRedirect() {
       copied = fallbackCopy(textToCopy);
     }
 
-    // Show visual confirmation
+    // Show visual confirmation with instructions tailored to the selected stars
+    const alertDesc = postCopyAlert.querySelector("p");
+    if (alertDesc) {
+      alertDesc.innerHTML = `Google Reviews is opening. Just tap <strong>${currentRating} star${currentRating > 1 ? 's' : ''}</strong>, paste your review, and tap <strong>Post</strong>!`;
+    }
     postCopyAlert.classList.add("show");
     copyGoogleBtn.innerHTML = `<i data-lucide="check-circle" style="width:20px;height:20px;"></i> Review Copied! Opening Google...`;
     copyGoogleBtn.style.background = "#059669";
     if (window.lucide) lucide.createIcons();
 
-    // Trigger subtle confetti celebration if available
-    triggerConfetti();
+    // Trigger subtle confetti celebration on 4-5 stars
+    if (currentRating >= 4) {
+      triggerConfetti();
+    }
 
     // Open Google Review box after 800ms
     setTimeout(() => {
       window.open(GOOGLE_REVIEW_URL, "_blank");
-      // Reset button text after 4s
       setTimeout(() => {
         copyGoogleBtn.innerHTML = `<i data-lucide="copy" style="width:20px;height:20px;"></i> Copy Review & Open Google Reviews`;
         copyGoogleBtn.style.background = "";
@@ -389,12 +493,10 @@ function setupStandeeModal() {
   const downloadQrBtn = document.getElementById("downloadQrBtn");
   const qrContainer = document.getElementById("qrcodeCanvas");
 
-  // Default target URL is this current page URL or fallback
   const currentUrl = window.location.href.split('?')[0] || "https://thepulseclinic.com/review/";
   standeeUrlInput.value = currentUrl;
 
   function renderQR(url) {
-    // Generate clean high-contrast SVG QR Code via Google Charts API or inline SVG fallback
     qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}&margin=1" alt="Pulse Clinic Review QR" style="width:100%; height:100%; border-radius:8px; display:block;">`;
   }
 
