@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Your Feedback — Pulse Health Clinic, Madhapur</title>
+    <meta name="description" content="Share your 5-star experience with Dr. Vijay Kumar & Dr. Devi Priya at Pulse Health Clinic Madhapur. Instant AI review generator & direct Google Review submission.">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css?v=1.0">
+</head>
+<body>
+
+    <!-- Ambient Glowing Backgrounds -->
+    <div class="bg-ambient-1"></div>
+    <div class="bg-ambient-2"></div>
+
+    <div class="app-container">
+        <!-- App Header -->
+        <header class="app-header">
+            <a href="https://thepulseclinic.com/" class="header-brand">
+                <div class="brand-emblem">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>PULSE <span>CLINIC</span></h1>
+                    <div class="brand-location">
+                        <i data-lucide="map-pin" style="width:12px;height:12px;color:var(--primary-teal);"></i>
+                        Madhapur, Hyderabad
+                    </div>
+                </div>
+            </a>
+            
+            <button class="standee-toggle-btn" id="openStandeeBtn" title="View Reception QR Standee">
+                <i data-lucide="qr-code" style="width:15px;height:15px;color:var(--primary-teal);"></i>
+                <span>Desk QR Stand</span>
+            </button>
+        </header>
+
+        <!-- Main Interactive Review Box -->
+        <main class="review-card">
+            <div class="card-hero-badge">
+                <i data-lucide="award" style="width:13px;height:13px;"></i>
+                Patient Experience & Feedback
+            </div>
+
+            <h2 class="card-title">How was your visit with us?</h2>
+            <p class="card-subtitle">Select your rating below. Our AI will help you write a genuine review in 5 seconds to post on Google!</p>
+
+            <!-- 1 to 5 Stars Selector -->
+            <div class="star-rating-box" id="starRatingBox">
+                <span class="star-prompt-label">Tap stars to rate:</span>
+                <div class="stars-container" id="starsContainer">
+                    <button type="button" class="star-btn" data-rating="1" aria-label="1 Star">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </button>
+                    <button type="button" class="star-btn" data-rating="2" aria-label="2 Stars">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </button>
+                    <button type="button" class="star-btn" data-rating="3" aria-label="3 Stars">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </button>
+                    <button type="button" class="star-btn" data-rating="4" aria-label="4 Stars">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </button>
+                    <button type="button" class="star-btn" data-rating="5" aria-label="5 Stars">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </button>
+                </div>
+                <div class="rating-status-text" id="ratingStatusText">🌟 5 Stars — Outstanding Experience!</div>
+            </div>
+
+            <!-- Positive Review Flow (4 or 5 Stars) -->
+            <div class="wizard-section active" id="positiveWizard">
+                <!-- Step 1: Doctor Selection -->
+                <div class="step-block">
+                    <div class="step-label">
+                        <span>1. Who was your consulting doctor?</span>
+                    </div>
+                    <div class="doctor-grid">
+                        <div class="doctor-card" data-doc="dr-vijay">
+                            <div class="doc-avatar">VK</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Dr. Vijay Kumar</div>
+                                <div class="doc-spec">General Surgeon (Piles, Cysts)</div>
+                            </div>
+                        </div>
+                        <div class="doctor-card" data-doc="dr-devipriya">
+                            <div class="doc-avatar" style="background:var(--primary-teal);">DP</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Dr. Devi Priya</div>
+                                <div class="doc-spec">Skin & Hair Aesthetician</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Treatment Selection -->
+                <div class="step-block">
+                    <div class="step-label">
+                        <span>2. What treatment did you receive?</span>
+                        <span class="hint">Select 1 option</span>
+                    </div>
+                    <div class="chips-cloud" id="treatmentsCloud">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Step 3: Key Highlights -->
+                <div class="step-block">
+                    <div class="step-label">
+                        <span>3. What did you like most?</span>
+                        <span class="hint">Tap to add</span>
+                    </div>
+                    <div class="chips-cloud">
+                        <button type="button" class="highlight-btn selected" data-tag="Very patient & gentle">Gentle & Patient</button>
+                        <button type="button" class="highlight-btn selected" data-tag="Painless procedure">Painless procedure</button>
+                        <button type="button" class="highlight-btn" data-tag="Clean & hygienic clinic">Clean & hygienic clinic</button>
+                        <button type="button" class="highlight-btn" data-tag="Great visible results">Great visible results</button>
+                        <button type="button" class="highlight-btn" data-tag="Transparent pricing">Affordable & transparent</button>
+                        <button type="button" class="highlight-btn" data-tag="Zero waiting time">Zero waiting time</button>
+                    </div>
+                </div>
+
+                <!-- AI Review Generation Box -->
+                <div class="ai-generator-box">
+                    <div class="ai-header-bar">
+                        <div class="ai-badge">
+                            <i data-lucide="bot" style="width:14px;height:14px;"></i>
+                            AI Generated Review Options
+                        </div>
+                        <button type="button" class="regenerate-btn" id="regenerateBtn" title="Generate different wording">
+                            <i data-lucide="refresh-cw" style="width:13px;height:13px;"></i>
+                            New Options
+                        </button>
+                    </div>
+
+                    <!-- AI Shimmer Loading Bar -->
+                    <div class="ai-shimmer" id="aiShimmer">
+                        <div class="shimmer-line" style="width:90%;"></div>
+                        <div class="shimmer-line" style="width:75%;"></div>
+                    </div>
+
+                    <!-- Options Container -->
+                    <div class="review-options" id="reviewOptionsContainer">
+                        <!-- Injected via JavaScript -->
+                    </div>
+
+                    <!-- Editable Box -->
+                    <div class="custom-edit-box">
+                        <label for="customReviewText" style="font-size:0.75rem;font-weight:700;color:var(--slate-500);margin-bottom:4px;display:block;">
+                            You can tweak or customize the text below:
+                        </label>
+                        <textarea id="customReviewText" class="custom-textarea" placeholder="Selected review text appears here..."></textarea>
+                    </div>
+
+                    <!-- Action CTAs -->
+                    <div class="cta-group">
+                        <button type="button" class="btn-copy-google" id="copyGoogleBtn">
+                            <i data-lucide="copy" style="width:20px;height:20px;"></i>
+                            <span>Copy Review & Open Google Reviews</span>
+                        </button>
+
+                        <a href="https://search.google.com/local/writereview?placeid=ChIJrc0BE6ORyzsRNSWqRuAR6Ok" target="_blank" class="btn-secondary-link">
+                            <i data-lucide="external-link" style="width:14px;height:14px;"></i>
+                            <span>Or open Google Reviews directly</span>
+                        </a>
+                    </div>
+
+                    <!-- Visual Instruction Alert (Shown after copy) -->
+                    <div class="post-copy-alert" id="postCopyAlert">
+                        <div class="alert-icon">
+                            <i data-lucide="check-circle-2" style="width:22px;height:22px;"></i>
+                        </div>
+                        <div class="alert-content">
+                            <h4>Review Copied to Clipboard!</h4>
+                            <p>Google Reviews is opening in a new tab. Just <strong>tap and PASTE</strong> your review into the box and tap <strong>Post</strong>!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Reputation Protection Box (For 1 to 3 Stars) -->
+            <div class="private-feedback-box" id="privateFeedbackBox">
+                <div class="private-header">
+                    <i data-lucide="alert-circle"></i>
+                    <div class="private-title">We are truly sorry your experience wasn't 5-star</div>
+                </div>
+                <p class="private-desc">
+                    At Pulse Health Clinic, our patients' health and comfort are our top priorities. Please send your feedback directly to our Medical Director so we can resolve any inconvenience immediately.
+                </p>
+                <a href="https://wa.me/917396639211?text=Hello%20Pulse%20Health%20Clinic%20Management,%20I%20visited%20the%20clinic%20and%20wanted%20to%20share%20some%20private%20feedback%20regarding%20my%20experience." target="_blank" class="btn-whatsapp-direct">
+                    <i data-lucide="message-square" style="width:18px;height:18px;"></i>
+                    Send Private Message to Doctor/Management
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <!-- ==========================================================================
+         RECEPTION DESK QR STANDEE MODAL (PRINTABLE)
+         ========================================================================== -->
+    <div class="modal-overlay" id="standeeModal">
+        <div class="standee-modal-content">
+            <button type="button" class="modal-close-btn" id="closeStandeeBtn" aria-label="Close Standee Modal">
+                <i data-lucide="x" style="width:18px;height:18px;"></i>
+            </button>
+
+            <h3 style="font-family:var(--font-heading);font-size:1.25rem;font-weight:800;color:var(--navy-dark);margin-bottom:4px;">
+                Reception Desk QR Standee
+            </h3>
+            <p style="font-size:0.8rem;color:var(--slate-500);margin-bottom:1rem;">
+                Place this QR card on the reception desk or doctor's table so patients can scan and leave a review in 10 seconds.
+            </p>
+
+            <!-- URL input to customize link if needed -->
+            <div class="standee-url-input-wrap">
+                <label for="standeeUrlInput" class="standee-url-label">Target QR URL (Edit if using a live domain):</label>
+                <input type="text" id="standeeUrlInput" class="standee-url-input" value="https://thepulseclinic.com/review/">
+            </div>
+
+            <!-- The Table Tent Card Preview -->
+            <div class="standee-card-preview" id="standeeCardPreview">
+                <div class="standee-clinic-header">
+                    <div class="standee-clinic-name">PULSE <span>HEALTH CLINIC</span></div>
+                    <div class="standee-tagline">Skin • Hair • General Surgery • Madhapur</div>
+                </div>
+
+                <div class="standee-stars">★★★★★</div>
+                <div class="standee-headline">
+                    Loved your visit today?<br>Help others find us in Madhapur!
+                </div>
+
+                <div class="standee-qr-frame">
+                    <div id="qrcodeCanvas"></div>
+                </div>
+
+                <div class="standee-instructions">
+                    📷 Scan with phone camera • AI writes your review in 5s!
+                </div>
+            </div>
+
+            <!-- Standee Action Buttons -->
+            <div class="standee-actions">
+                <button type="button" class="btn-print" id="printStandeeBtn">
+                    <i data-lucide="printer" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:4px;"></i>
+                    Print Standee
+                </button>
+                <button type="button" class="btn-download-qr" id="downloadQrBtn">
+                    <i data-lucide="download" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:4px;"></i>
+                    Download QR
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="script.js?v=1.0"></script>
+</body>
+</html>
