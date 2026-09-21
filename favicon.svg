@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="pulseBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0fb5a2" />
+      <stop offset="50%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+
+    <!-- Cross Gradient -->
+    <linearGradient id="crossGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f0fdfa" />
+    </linearGradient>
+
+    <!-- Pulse Line Gradient -->
+    <linearGradient id="ecgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0fb5a2" />
+      <stop offset="40%" stop-color="#0ea5e9" />
+      <stop offset="60%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0fb5a2" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="125%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#0284c7" flood-opacity="0.35" />
+    </filter>
+
+    <filter id="crossShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#042f2e" flood-opacity="0.22" />
+    </filter>
+  </defs>
+
+  <!-- Rounded Squircle Background -->
+  <rect x="24" y="24" width="464" height="464" rx="116" fill="url(#pulseBgGrad)" filter="url(#cardShadow)" />
+
+  <!-- Subtle Inner Border Highlight -->
+  <rect x="25" y="25" width="462" height="462" rx="115" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="3" />
+
+  <!-- Medical Cross Group with Shadow -->
+  <g filter="url(#crossShadow)">
+    <!-- Vertical Cross Arm -->
+    <rect x="206" y="96" width="100" height="320" rx="36" fill="url(#crossGrad)" />
+    <!-- Horizontal Cross Arm -->
+    <rect x="96" y="206" width="320" height="100" rx="36" fill="url(#crossGrad)" />
+  </g>
+
+  <!-- Dynamic Pulse/ECG Heartbeat Wave Across the Center -->
+  <path d="M 108 256 L 195 256 L 218 200 L 244 314 L 272 178 L 298 290 L 318 256 L 404 256" 
+        fill="none" 
+        stroke="url(#ecgGrad)" 
+        stroke-width="18" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" />
+
+  <!-- Heartbeat Peak Glowing Dots -->
+  <circle cx="272" cy="178" r="8" fill="#0284c7" />
+  <circle cx="244" cy="314" r="8" fill="#0fb5a2" />
+</svg>
